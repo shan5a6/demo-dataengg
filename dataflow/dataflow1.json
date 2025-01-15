@@ -1,0 +1,67 @@
+{
+	"name": "dataflow1",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "sourcedata",
+						"type": "DatasetReference"
+					},
+					"name": "injectingsource"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "processeddata",
+						"type": "DatasetReference"
+					},
+					"name": "storingdata"
+				}
+			],
+			"transformations": [
+				{
+					"name": "select1"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          {Employee ID} as string,",
+				"          {First Name} as string,",
+				"          {Last Name} as string,",
+				"          Department as string,",
+				"          Position as string,",
+				"          Salary as string,",
+				"          {Joining Date} as string,",
+				"          Location as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false,",
+				"     partitionBy('hash', 1)) ~> injectingsource",
+				"injectingsource select(mapColumn(",
+				"          {Employee ID},",
+				"          {First Name},",
+				"          {Last Name},",
+				"          Department,",
+				"          Position,",
+				"          Salary,",
+				"          {Joining Date}",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> select1",
+				"select1 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     filePattern:'processed-data',",
+				"     umask: 0022,",
+				"     preCommands: [],",
+				"     postCommands: [],",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     partitionBy('hash', 1)) ~> storingdata"
+			]
+		}
+	}
+}
