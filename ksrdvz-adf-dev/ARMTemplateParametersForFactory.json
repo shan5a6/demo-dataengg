@@ -1,0 +1,21 @@
+{
+	"$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"value": "ksrdvz-adf-dev"
+		},
+		"Processeddata_accountKey": {
+			"value": ""
+		},
+		"sourcedataprocess_accountKey": {
+			"value": ""
+		},
+		"Processeddata_properties_typeProperties_url": {
+			"value": "https://ksrdvzsadev.dfs.core.windows.net/"
+		},
+		"sourcedataprocess_properties_typeProperties_url": {
+			"value": "https://ksrdvzsadev.dfs.core.windows.net/"
+		}
+	}
+}
